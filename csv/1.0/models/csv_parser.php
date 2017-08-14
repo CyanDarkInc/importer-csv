@@ -13,13 +13,14 @@ class CsvParser
     /**
      * Get all data columns.
      *
+     * @param mixed $data
      * @return mixed An array containing the CSV columns, false if an error occurs
      */
     public function getColumns($data)
     {
         if ($this->validateData($data)) {
             $rows = explode("\n", trim($data));
-            $columns = explode(",", trim($rows[0]));
+            $columns = explode(',', trim($rows[0]));
 
             return $columns;
         }
@@ -30,13 +31,14 @@ class CsvParser
     /**
      * Get all data columns prepared for a select form.
      *
+     * @param mixed $data
      * @return mixed An array containing the CSV columns, false if an error occurs
      */
     public function getColumnsSelect($data)
     {
         if ($this->validateData($data)) {
             $rows = explode("\n", trim($data));
-            $columns = explode(",", trim($rows[0]));
+            $columns = explode(',', trim($rows[0]));
             $fields = [];
 
             foreach ($columns as $column) {
@@ -52,6 +54,7 @@ class CsvParser
     /**
      * Get all data rows.
      *
+     * @param mixed $data
      * @return mixed An array containing the CSV rows, false if an error occurs
      */
     public function getRows($data)
@@ -62,7 +65,7 @@ class CsvParser
             unset($rows[0]);
 
             foreach ($rows as $key => $value) {
-                $value = explode(",", $value);
+                $value = explode(',', $value);
                 $fields = [];
 
                 foreach ($value as $field_id => $field_value) {
@@ -89,7 +92,7 @@ class CsvParser
         $rows = explode("\n", trim($data));
 
         if (is_array($rows) && count($rows) > 1) {
-            $columns = explode(",", $rows[0]);
+            $columns = explode(',', $rows[0]);
 
             return is_array($columns) && count($columns) > 1;
         }

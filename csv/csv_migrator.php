@@ -101,7 +101,6 @@ class CsvMigrator extends Migrator
             $this->local->insert('clients', $vars);
             $client_id = $this->local->lastInsertId();
 
-
             // Create primary contact
             $vars = [
                 'client_id' => $client_id,
