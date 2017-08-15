@@ -80,7 +80,7 @@ class CsvMigrator extends Migrator
         foreach ($users as $user) {
             // Create user account
             $vars = [
-                'username' => $user[$this->mappings['remote_fields']['email']],
+                'username' => isset($user[$this->mappings['remote_fields']['username']]) ? $user[$this->mappings['remote_fields']['username']] : $user[$this->mappings['remote_fields']['email']],
                 'password' => password_hash($this->generatePassword(), PASSWORD_BCRYPT),
                 'date_added' => $this->Users->dateToUtc(date('c'))
             ];
@@ -101,19 +101,21 @@ class CsvMigrator extends Migrator
             $this->local->insert('clients', $vars);
             $client_id = $this->local->lastInsertId();
 
+
             // Create primary contact
             $vars = [
                 'client_id' => $client_id,
                 'contact_type' => 'primary',
                 'first_name' => $user[$this->mappings['remote_fields']['first_name']],
                 'last_name' => $user[$this->mappings['remote_fields']['last_name']],
-                'company' => $user[$this->mappings['remote_fields']['company']],
-                'email' => $user[$this->mappings['remote_fields']['email']],
-                'address1' => $user[$this->mappings['remote_fields']['address1']],
-                'address2' => $user[$this->mappings['remote_fields']['address2']],
-                'city' => $user[$this->mappings['remote_fields']['city']],
-                'state' => $user[$this->mappings['remote_fields']['state']] != '' ? strtoupper(substr($user[$this->mappings['remote_fields']['state']], 0, 2)) : null,
-                'country' => $user[$this->mappings['remote_fields']['country']] != '' ? strtoupper(substr($user[$this->mappings['remote_fields']['country']], 0, 2)) : $this->default_country,
+                'company' => isset($user[$this->mappings['remote_fields']['company']]) ? $user[$this->mappings['remote_fields']['company']] : null,
+                'email' => isset($user[$this->mappings['remote_fields']['email']]) ? $user[$this->mappings['remote_fields']['email']] : null,
+                'address1' => isset($user[$this->mappings['remote_fields']['address1']]) ? $user[$this->mappings['remote_fields']['address1']] : null,
+                'address2' => isset($user[$this->mappings['remote_fields']['address2']]) ? $user[$this->mappings['remote_fields']['address2']] : null,
+                'city' => isset($user[$this->mappings['remote_fields']['city']]) ? $user[$this->mappings['remote_fields']['city']] : null,
+                'zip' => isset($user[$this->mappings['remote_fields']['zip']]) ? $user[$this->mappings['remote_fields']['zip']] : null,
+                'state' => isset($user[$this->mappings['remote_fields']['state']]) ? strtoupper(substr($user[$this->mappings['remote_fields']['state']], 0, 2)) : null,
+                'country' => isset($user[$this->mappings['remote_fields']['country']]) ? strtoupper(substr($user[$this->mappings['remote_fields']['country']], 0, 2)) : $this->default_country,
                 'date_added' => $this->Users->dateToUtc($client->datecreated)
             ];
             $this->local->insert('contacts', $vars);
