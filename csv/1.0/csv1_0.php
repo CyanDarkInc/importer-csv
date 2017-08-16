@@ -79,8 +79,9 @@ class Csv1_0 extends CsvMigrator
         $this->mappings['remote_fields'] = [];
         if (isset($vars['remote_fields'])) {
             foreach ($vars['remote_fields'] as $local_field => $remote_field) {
-                if (!empty($remote_field))
+                if (!empty($remote_field)) {
                     $this->mappings['remote_fields'][$local_field] = trim($remote_field);
+                }
             }
         }
     }
@@ -135,7 +136,7 @@ class Csv1_0 extends CsvMigrator
         $rows = explode("\n", trim($data));
 
         if (is_array($rows) && count($rows) > 1) {
-            $columns = explode(",", $rows[0]);
+            $columns = explode(',', $rows[0]);
 
             return is_array($columns) && count($columns) > 1;
         }
